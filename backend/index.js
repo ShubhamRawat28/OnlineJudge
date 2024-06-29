@@ -1,10 +1,13 @@
 const express = require("express");
 const User = require("./models/Users");
+const Problem = require("./models/Problems");
 const connectDB = require("./database/db");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
+const { createFile } = require("./createFile");
+const { executeCPP } = require("./executeCPP");
 
 dotenv.config();
 
@@ -106,6 +109,36 @@ app.post("/login", async (req, res) => {
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: "Server error" });
+    }
+});
+
+// compiler related api's
+app.post('/run', async(req,res) => {
+    const { language="cpp", code } = req.body;
+    console.log(language, code);
+
+    if(code === undefined || code === "") {
+        return res.status(400).json({success: false, msg: "Please fill all the fields" });
+    }
+
+    try {
+        const filePath = createFile(language, code);
+        console.log(filePath);
+        const output = await executeCPP(filePath);
+
+        res.status(200).json({success: true, output});
+    } catch (error) {
+        res.status(500).json({error: "Server error"});
+    }
+})
+
+app.get('/problems' , async(req,res) => {
+    try {
+        const problems = await Problem.find();
+        res.status(200).json({problems});
+    }
+    catch(error) {
+        res.status(500).json({error: "Server error"});
     }
 });
 
