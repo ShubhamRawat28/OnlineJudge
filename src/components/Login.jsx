@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/register.css';
+import { Link } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const Login = () => {
@@ -63,7 +64,8 @@ const Login = () => {
         </form>
 
         <div className="create-account">
-          <a href="#">Create an account</a>
+          <p>Don't have an account?</p>
+          <Link to="/register">Create an account</Link>
         </div>
       </div>
     </section>
