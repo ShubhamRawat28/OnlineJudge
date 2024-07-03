@@ -8,6 +8,7 @@ const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const { createFile } = require("./createFile");
 const { executeCPP } = require("./executeCPP");
+const cors = require('cors');
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ const app = express();
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 const port = 8000;
 
 connectDB();
@@ -136,6 +138,60 @@ app.get('/problems' , async(req,res) => {
     try {
         const problems = await Problem.find();
         res.status(200).json({problems});
+    }
+    catch(error) {
+        res.status(500).json({error: "Server error"});
+    }
+});
+
+// Add this route in your backend routes file
+app.get('/problems/:id', async (req, res) => {
+    try {
+      const problem = await Problem.findById(req.params.id);
+      if (!problem) {
+        return res.status(404).json({ error: 'Problem not found' });
+      }
+      res.status(200).json(problem);
+    } catch (error) {
+      res.status(500).json({ error: 'Server error' });
+    }
+  });  
+
+app.post('/addproblem', async(req,res) => {
+    try {
+        const { statement, name, code, difficulty, test_cases } = req.body;
+        console.log(req.body);
+        if(!statement || !name || !code || !difficulty || !test_cases) {
+            return res.status(400).json({msg: "Please fill all the fields"});
+        }
+        const problem = await Problem.create({
+            statement,
+            name,
+            code,
+            difficulty,
+            test_cases
+        });
+        res.status(201).json({msg: "Problem added successfully", problem});
+    }
+    catch(error) {
+        res.status(500).json({error: "Server error"});
+    }
+});
+
+app.post('/editproblem', async(req,res) => {
+    try {
+        const { statement, name, code, difficulty, test_cases } = req.body;
+        if(!statement || !name || !code || !difficulty || !test_cases) {
+            return res.status(400).json({msg: "Please fill all the fields"});
+        }
+        const problem = await Problem.findOneAndUpdate({name}, {
+            statement,
+            name,
+            code,
+            difficulty,
+            test_cases
+        });
+        res.status(201).json({msg: "Problem updated successfully", problem});
     }
     catch(error) {
         res.status(500).json({error: "Server error"});

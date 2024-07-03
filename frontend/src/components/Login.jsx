@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/register.css';
 import { Link } from 'react-router-dom';
-import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -57,7 +56,7 @@ const Login = () => {
               Remember me
             </label>
 
-            <a href="#">Forgot password</a>
+            <a href="./login">Forgot password</a>
           </div>
 
           <button type="submit">Login</button>

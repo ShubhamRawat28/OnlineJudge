@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/register.css';
 import { Link } from 'react-router-dom';
-import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const Register = () => {
   const [firstname, setFirstname] = useState('');
