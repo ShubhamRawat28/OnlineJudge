@@ -15,7 +15,7 @@ const Register = () => {
   };
 
   return (
-    <section>
+    <section className='section'>
       <div className="login-container">
         <h2>Register</h2>
 

@@ -5,9 +5,11 @@ import Problems from "./components/Problems";
 import Home from "./components/Home";
 import ProblemDetail from "./components/ProblemDetail";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Flowbite } from "flowbite-react";
 
 function App() {
   return (
+    <Flowbite>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -17,6 +19,7 @@ function App() {
         <Route path="/register" element={<Register />} />
       </Routes>
     </BrowserRouter>
+    </Flowbite>
   );
 }
 

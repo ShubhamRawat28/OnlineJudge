@@ -37,7 +37,7 @@ a:hover::after {
     }
 }
 
-section {
+.section {
     min-height: 100vh;
     display: flex;
     justify-content: center;
