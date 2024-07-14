@@ -40,6 +40,7 @@ const Problems = () => {
 					</Table.Head>
 					<Table.Body className="divide-y">
 						{problems.map((problem) => (
+							<Link to={`/problems/${problem._id}`} key={problem.id}>
 							<Table.Row key={problem.id}>
 								<Table.Cell className="text-red-600">{problem.code}</Table.Cell>
 								<Table.Cell className="text-red-600">{problem.name}</Table.Cell>
@@ -47,6 +48,7 @@ const Problems = () => {
 									{problem.difficulty}
 								</Table.Cell>
 							</Table.Row>
+							</Link>
 						))}
 					</Table.Body>
 				</Table>

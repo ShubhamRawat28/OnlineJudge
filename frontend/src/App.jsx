@@ -15,8 +15,10 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/problems" element={<Problems />} />
         <Route path="/problems/:id" element={<ProblemDetail/>} />
+        {/* <Route path="/aboutus" element={<AboutUs setActive = "aboutus"/>} /> */}
+        {/* <Route path="/contest" element={<Contest setActive = "contest"/>} /> */}
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/register" element={<Register/>} />
       </Routes>
     </BrowserRouter>
     </Flowbite>

@@ -1,15 +1,29 @@
 import React, { useState } from 'react';
 import '../styles/register.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ email, password, rememberMe });
+    try {
+      const response = await axios.post('http://localhost:8000/login', {
+        email,
+        password,
+        rememberMe
+      });
+      console.log(response.data);
+      localStorage.setItem('token', response.data.user.token);
+      navigate('/');
+    } catch (error) {
+      console.error('There was an error logging in the user!', error);
+      // Handle error (e.g., show error message to user)
+    }
   };
 
   return (

@@ -1,17 +1,31 @@
 import React, { useState } from 'react';
 import '../styles/register.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Register = () => {
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log({ firstname, lastname, email, password });
+    try {
+      const response = await axios.post('http://localhost:8000/register', {
+        firstname,
+        lastname,
+        email,
+        password,
+      });
+      console.log(response.data);
+      localStorage.setItem('token', response.data.token);
+      navigate('/');
+    } catch (error) {
+      console.error('There was an error registering the user!', error);
+      // Handle error (e.g., show error message to user)
+    }
   };
 
   return (

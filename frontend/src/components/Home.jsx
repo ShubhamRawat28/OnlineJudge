@@ -54,8 +54,8 @@ const content = [
 const Home = () => {
 	return (
 		<div>
-		<NavbarComponent/>
-		<StickyScroll content={content} />
+		<NavbarComponent />
+		<StickyScroll content={content} className="h-screen" />
 		</div>
 	);
 };

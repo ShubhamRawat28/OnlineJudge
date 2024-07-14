@@ -20,6 +20,7 @@ import {
 } from "./ui/dropdown-menu";
 import { Editor } from "@monaco-editor/react";
 import { ReloadIcon } from "@radix-ui/react-icons";
+import { CaretSortIcon } from "@radix-ui/react-icons";
 
 const ProblemDetail = () => {
 	const { id } = useParams();
@@ -168,8 +169,9 @@ const ProblemDetail = () => {
 									<div>
 										<DropdownMenu>
 											<DropdownMenuTrigger asChild>
-												<Button variant="outline" className="w-20">
+												<Button variant="outline" className="w-28">
 													{language}
+													<CaretSortIcon/>
 												</Button>
 											</DropdownMenuTrigger>
 											<DropdownMenuContent className="w-10 ml-8">
@@ -235,7 +237,7 @@ const ProblemDetail = () => {
 													role="tab"
 													aria-controls="tabs-with-underline-1"
 												>
-													Input
+													Sample Tests
 												</button>
 												<button
 													type="button"
@@ -249,7 +251,7 @@ const ProblemDetail = () => {
 													role="tab"
 													aria-controls="tabs-with-underline-2"
 												>
-													Output
+													Manual Tests
 												</button>
 											</nav>
 										</div>
