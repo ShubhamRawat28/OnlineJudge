@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Avatar, Dropdown, Navbar, Button } from "flowbite-react";
+import { Avatar, Dropdown, Navbar } from "flowbite-react";
 import { DarkThemeToggle } from "flowbite-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -16,7 +16,6 @@ const NavbarComponent = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    console.log(token);
     if (token) {
       axios.get('http://localhost:8000/user', {
         headers: {
@@ -24,7 +23,6 @@ const NavbarComponent = () => {
         }
       })
       .then(response => {
-        console.log(response.data);
         setUser(response.data.user);
         setName(response.data.firstname + " " + response.data.lastname);
         setEmail(response.data.email);
@@ -68,14 +66,17 @@ const NavbarComponent = () => {
           </Dropdown>
         ) : (
           <>
-            <Button onClick={() => navigate('/login')} className="mr-2">Login</Button>
-            <Button onClick={() => navigate('/register')}>Register</Button>
+          <p className="flex mr-6">
+            <p onClick={() => navigate('/login')} className="mt-4 mr-2 w-14 font-bold cursor-pointer  dark:text-gray-400 text-xl dark:hover:text-white text-gray-500 hover:text-blue-500">Login</p>
+            <p className="mt-4 w-8 font-bold dark:text-gray-400 text-xl text-gray-500">Or</p>
+            <p onClick={() => navigate('/register')} className="mt-4 mr-2 w-16 font-bold cursor-pointer  dark:text-gray-400 text-xl dark:hover:text-white text-gray-500 hover:text-blue-500">Register</p>
+            </p>
           </>
         )}
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
-        <Navbar.Link href="/" className={`text-xl ${location.pathname === "/" ? "active text-blue-500 border-blue-500 border-b-2  dark:text-white dark:border-gray-100 dark:border-b-2" : ""}`}>Home</Navbar.Link>
+        <Navbar.Link href="/" className={`text-xl ${location.pathname === "/" ? "active text-blue-500 border-blue-500 border-b-2  dark:text-white dark:border-gray-100 dark:border-b-2" : "hover:text-blue-500 hover:border-blue-500 hover:dark:text-white hover:dark:border-gray-100"}`}>Home</Navbar.Link>
         <Navbar.Link href="/problems" className={`block text-xl ${location.pathname === "/problems" ? "active text-blue-500 border-blue-500 border-b-2  dark:text-white dark:border-gray-100 dark:border-b-2" : ""}`}>Problems</Navbar.Link>
         <Navbar.Link href="/contests" className={`text-xl ${location.pathname === "/contests" ? "active text-blue-500 border-blue-500 border-b-2  dark:text-white dark:border-gray-100 dark:border-b-2" : ""}`}>Contests</Navbar.Link>
         <Navbar.Link href="/resources" className={`text-xl ${location.pathname === "/resources" ? "active text-blue-500 border-blue-500 border-b-2  dark:text-white dark:border-gray-100 dark:border-b-2" : ""}`}>Resources</Navbar.Link>

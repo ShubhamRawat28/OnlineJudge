@@ -5,6 +5,7 @@ const connectDB = require("./database/db");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
+const config = require("config");
 const bodyParser = require("body-parser");
 const { createFile } = require("./createFile");
 const { executeCPP } = require("./executeCPP");
@@ -22,25 +23,46 @@ const port = 8000;
 
 connectDB();
 
-app.get("/", (req, res) => {
-    res.send("Hello world");
-});
-
 const auth = (req, res, next) => {
-    const token = req.header("Authorization").replace("Bearer ", "");
+    const authHeader = req.header("Authorization");
+
+    if (!authHeader) {
+        return res.status(401).json({ msg: "No Authorization header, authorization denied" });
+    }
+
+    if (!authHeader.startsWith("Bearer ")) {
+        return res.status(401).json({ msg: "Malformed token, authorization denied" });
+    }
+
+    const token = authHeader.replace("Bearer ", "");
 
     if (!token) {
         return res.status(401).json({ msg: "No token, authorization denied" });
     }
 
     try {
+        const decodedToken = jwt.decode(token, { complete: true });
+        console.log("Decoded token:", decodedToken);
+
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        console.log("Decoded payload:", decoded);
+
         req.user = decoded;
         next();
-    } catch (error) {
-        res.status(401).json({ msg: "Token is not valid" });
+    } catch (err) {
+        return res.status(401).json({ msg: "Token is not valid" });
     }
 };
+
+app.get("/user", auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select("-password");
+        res.json(user);
+    } catch (error) {
+        res.status(500).send("Server Error");
+    }
+});
+
 
 const admin = (req, res, next) => {
     if (req.user.role !== "admin") {
@@ -49,17 +71,6 @@ const admin = (req, res, next) => {
     next();
 };
 
-// User API
-app.get("/user", auth, async (req, res) => {
-    try {
-        console.log(req.user);
-        const user = await User.findById(req.user.id).select("-password");
-        res.json(user);
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send("Server Error");
-    }
-});
 
 app.post("/register", async (req, res) => {
     try {
@@ -142,6 +153,7 @@ app.post("/login", async (req, res) => {
         });
     } catch (error) {
         console.log(error);
+        console.log("Server error");
         res.status(500).json({ error: "Server error" });
     }
 });

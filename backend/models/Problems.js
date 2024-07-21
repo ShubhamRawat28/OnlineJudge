@@ -41,6 +41,18 @@ const problemSchema = new mongoose.Schema({
                 required: true,
             }
         }
+    ],
+    sample_cases: [
+        {
+            input: {
+                type: String,
+                required: true,
+            },
+            output: {
+                type: String,
+                required: true,
+            }
+        }
     ]
 });
 

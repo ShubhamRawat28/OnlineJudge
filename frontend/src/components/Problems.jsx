@@ -28,27 +28,22 @@ const Problems = () => {
 		<div>
 			<NavbarComponent />
 			<div className="overflow-x-auto">
-				<h1>Problems</h1>
+				<h1 className="text-2xl">Problems</h1>
 				<Table hoverable>
 					<Table.Head>
-						<Table.HeadCell>Id</Table.HeadCell>
-						<Table.HeadCell>Title</Table.HeadCell>
-						<Table.HeadCell>Difficulty</Table.HeadCell>
-						<Table.HeadCell>
-							<span className="sr-only">Edit</span>
-						</Table.HeadCell>
+						<Table.HeadCell className="text-xl">Id</Table.HeadCell>
+						<Table.HeadCell className="text-xl">Title</Table.HeadCell>
+						<Table.HeadCell className="text-xl">Difficulty</Table.HeadCell>
 					</Table.Head>
 					<Table.Body className="divide-y">
 						{problems.map((problem) => (
-							<Link to={`/problems/${problem._id}`} key={problem.id}>
 							<Table.Row key={problem.id}>
-								<Table.Cell className="text-red-600">{problem.code}</Table.Cell>
-								<Table.Cell className="text-red-600">{problem.name}</Table.Cell>
-								<Table.Cell className="text-red-600">
+								<Table.Cell className="text-red-600 text-xl">{problem.code}</Table.Cell>
+								<Table.Cell className="text-red-600 text-xl capitalize"><Link to={`/problems/${problem._id}`}>{problem.name}</Link></Table.Cell>
+								<Table.Cell className="text-red-600 text-xl">
 									{problem.difficulty}
 								</Table.Cell>
 							</Table.Row>
-							</Link>
 						))}
 					</Table.Body>
 				</Table>
